@@ -1,0 +1,447 @@
+Que 1. Write difference between primitive and non primitive data structure, with example show the difference between array and linked list
+
+Ans 1.
+
+Primitive data types:-
+	these are the basic data types provided by programming languages.
+	examples:-
+		1.int, 2. float, 3. string, 4. bool etc
+
+Non-primitive data type:-
+	these are the complex data types that are constructed using primitive data types. they can store 	multiple values and provide more functionality.
+	examples:-
+		1. array, 2.stacks, linkedlist etc
+
+difference between array and linked list:-
+	1. Array-
+		1.fixed size.
+		2.contiguous memory allocate
+		3.Direct access using index
+		example:-
+			#include<bits/stdc++.h>
+			using namespace std;
+	
+			int main(){
+    
+    			int arr[] = {1, 2, 3, 4, 5};
+    			int n = sizeof(arr) / sizeof(arr[0]);
+
+    			for (int i = 0; i < n; i++) {
+        			cout<<arr[i]<< " ";
+    			}
+    
+   			 return 0;
+			}
+
+	2.Linked List-
+		1.dynamic size.
+		2.non-contiguous memory allocate
+		3.require traversal for access
+		example:-
+			#include<bits/stdc++.h>
+			using namespace std;
+
+			struct Node{
+    				int data;
+    				Node* next;
+			};
+
+			class LinkedList{
+    
+   				Node* head;
+    
+    				public:
+        				LinkedList(){
+            					head = NULL;
+        				}
+        
+        				void pushFront(int value){
+            					Node* newnode = new Node();
+            					newnode->data = value;
+            					newnode->next = head;
+            					head = newnode;
+        				}
+        
+        				void display(){ 
+            					if(!head){
+                					cout<<"list is empty";
+            					}
+            
+            					Node* temp = head;
+            					while(temp){
+                					cout<<temp->data<<"->";
+                					temp = temp->next;
+            					}
+            					cout<<" null";
+        				}
+			};
+
+			int main(){
+    
+    				LinkedList list;
+    
+    				list.pushFront(2);
+    				list.pushFront(1);
+    				list.pushFront(3);
+    				list.pushFront(6);
+    				list.display();
+    
+			}
+
+
+
+
+Que 2. Implement a singly linked list from scratch with the following operations:
+	insertAtHead(data)
+	insertAtTail(data)
+	display()
+
+Ans 2.
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* next;
+};
+
+class LinkedList{
+    
+    Node* head;
+    
+    public:
+        LinkedList(){
+            head = NULL;
+        }
+        
+        void insertAtHead(int value){
+            Node* newnode = new Node();
+            newnode->data = value;
+            newnode->next = head;
+            head = newnode;
+        }
+        
+        void insertAtTail(int value){
+            Node* newnode = new Node();
+            newnode->data = value;
+            newnode->next = NULL;
+            
+            if(!head){
+                head = newnode;
+                return;
+            }
+            
+            Node* temp = head;
+            while(temp->next){
+                temp = temp->next;
+            }
+            
+            temp->next = newnode;
+            
+        }
+        
+     
+        void display(){
+            if(!head){
+                cout<<"list is empty";
+            }
+            
+            Node* temp = head;
+            while(temp){
+                cout<<temp->data<<"->";
+                temp = temp->next;
+            }
+            cout<<" null";
+        }
+};
+
+int main(){
+    
+    LinkedList list;
+    
+    list.insertAtTail(2);
+    list.insertAtHead(4);
+    list.insertAtHead(4);
+    list.display();
+}
+
+
+
+
+Que 3. Given a singly linked list and a value, write a function to search for the value in the linked list. Return true if found, otherwise return false.
+
+Ans 3.
+
+ bool search(int value){
+        node* temp = head;
+        while (temp) {
+            if (temp->data == value){
+                return true;
+            }
+            temp = temp->next;
+        }
+        return false;
+    }
+
+
+
+
+Que 4.Write a function to calculate and return the length of a linked list (i.e., the number of nodes in the list).
+
+Ans 4.
+
+int length(){
+        int count=0;
+        node* temp = head;
+        while(temp){
+            count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+
+
+
+
+Que 5. Given a singly linked list and a value, write a function to delete the first node that contains the given value. If the value is not present, the list should remain unchanged.
+
+Ans 5.
+
+void deletebyvalue(int value) {
+        if (!head){
+            cout<<"empty"<<endl;
+            return;
+        }
+
+        if (head->data == value) {
+            node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+
+        node* current = head;
+        node* pre = NULL;
+
+        while (current && current->data != value) {
+            pre = current;
+            current = current->next;
+        }
+        
+        if (!current) {
+            cout<<" not found."<<endl;
+            return;
+        }
+
+        pre->next = current->next;
+        delete current;
+    }
+
+
+
+
+
+Que 6. Given a singly linked list, write a function to find and return the middle node of the list. If the list has an even number of nodes, return the second of the two middle nodes.
+
+Ans 6. 
+
+node* getmiddle(node* head) {
+    if (head == nullptr) {
+        return nullptr;
+    }
+
+    node* slow = head;
+    node* fast = head;
+
+    while (fast != nullptr && fast->next != nullptr) {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    return slow;
+}
+
+
+
+
+Que 8.Given two sorted singly linked lists, write a function to merge them into a single sorted linked list. Return the head of the merged list.
+
+Ans 8.
+
+node* merge(node* a, node* b) {
+    node* ans = NULL;
+
+    if (a == NULL){
+        return (b);
+    }else if (b == NULL){
+        return (a);
+    }
+
+    if(a->data <= b->data){
+        ans = a;
+        ans->next = merge(a->next, b);
+    }else{
+        ans = b;
+        ans->next = merge(a, b->next);
+    }
+    return ans;
+}
+
+
+
+
+Que 9. Convert the following infix expression to postfix:
+ 	a)(3 + 4) * (5 - 2) / (6 + 2)
+            b)(7 + 8) * (4 - 2)
+            c)(4 + 5) * (6 / 3) - 7
+
+Ans 9.
+
+a---> 3 4 + 5 2 - * 6 2 + /
+
+b---> 7 8 + 4 2 - *
+
+c---> 4 5 + 6 3 / * 7 -
+
+
+
+
+
+Que 10.Create Two class named Stack and Queue with base Class Node. Invoke the base Class constructor when Stack or Queue object is created using parameterized constructor. 
+  Methods : Push and pop For Stack
+  Methods: Push and pop using Queue
+
+
+Ans 10.
+
+Stack using linked list:-
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val){
+        data=val;
+        next = nullptr;
+    }
+};
+
+class Stack : public Node {
+public:
+    Stack() : Node(0) {}
+    Node* top = nullptr;
+
+    void push(int value) {
+        Node* newnode = new Node(value);
+        newnode->next = top;
+        top = newnode;
+    }
+    
+    void pop() {
+        if (top == nullptr) {
+            cout<<"stack is empty"<<endl;
+            return;
+        }
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+
+    void display() {
+        Node* current = top;
+        while (current) {
+            cout<<current->data<<" ";
+            current = current->next;
+        }
+        cout<<endl;
+    }
+};
+
+int main(){
+    
+    Stack stack;
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    stack.display();
+    stack.pop();
+    stack.display();
+
+    
+    return 0;
+}
+
+
+
+queue using linked list:-
+
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val){
+        data=val;
+        next = nullptr;
+    }
+};
+
+class Queue : public Node {
+public:
+    Queue() : Node(0) {}
+    Node* front = nullptr;
+    Node* back = nullptr;
+
+    void push(int value){
+        Node* newnode = new Node(value);
+        if (back == nullptr) {
+            front = back = newnode;
+            return;
+        }
+        back->next = newnode;
+        back = newnode; 
+    }
+    
+    void pop(){
+        if (front == nullptr) {
+            cout<<"queue is empty";
+            return;
+        }
+        Node* temp = front;
+        front = front->next;
+        if (front == nullptr) {
+            back = nullptr;
+        }
+        delete temp;
+    }
+
+    void display() {
+        Node* current = front;
+        while (current) {
+            cout<<current->data<<" ";
+            current = current->next;
+        }
+        cout<<endl;
+    }
+};
+
+int main(){
+    
+    Queue queue;
+    queue.push(10);
+    queue.push(20);
+    queue.push(30);
+    queue.display();
+    queue.pop();
+    queue.display();
+    
+    
+    return 0;
+}
